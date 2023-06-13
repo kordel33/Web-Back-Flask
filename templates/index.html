@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biblioteka Menu</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <h1>Biblioteka</h1>
+
+    <div id="glowna">
+        <p>
+            <a href="/add_user"><input type="button" value="Rejestracja"></a>
+        </p>
+    </div>
+    
+
+    <form action="/login" method="POST">
+        <div class="ostrzezenie">
+            {% block content %}
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for msg in messages %}
+                            <p>{{msg}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% endblock %}
+        </div>
+        <br>
+        <label for="username">Login:</label>
+        <input type="text" name="username" id="username" required>
+        <br>
+        <label for="password">Hasło:</label>
+        <input type="password" name="password" id="password" required>
+        <br>
+        <br>
+        <input type="submit" value="Zaloguj">
+    </form>
+</body>
+</html>

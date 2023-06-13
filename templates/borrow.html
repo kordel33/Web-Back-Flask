@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Przykładowa strona</title>
+    <style>
+        .ukryte {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Strona z ukrytymi polami tekstowymi</h1>
+
+    <button onclick="pokazPolaTekstowe()">Pokaż pola tekstowe</button>
+
+    <form>
+        <div id="polaTekstowe" class="ukryte">
+            <label for="pole1">Pole 1:</label>
+            <input type="text" id="pole1" name="pole1">
+
+            <br>
+
+            <label for="pole2">Pole 2:</label>
+            <input type="text" id="pole2" name="pole2">
+        </div>
+    </form>
+
+    <script>
+        function pokazPolaTekstowe() {
+            var divPolaTekstowe = document.getElementById("polaTekstowe");
+            divPolaTekstowe.style.display = "block";
+        }
+    </script>
+</body>
+</html>

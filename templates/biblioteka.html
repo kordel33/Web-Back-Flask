@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biblioteka</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <style>
+        body{
+            background-color: rgb(207, 147, 69);
+        }
+        #glowna{
+            background-color: rgb(207, 147, 69);
+            box-shadow: none;
+        }
+        .ukryte {
+            display: none;
+        }
+        .ukryte2 {
+            display: none;
+        }
+        .ostrzezenie{
+            background-color: rgb(207, 147, 69);
+        }
+        form{
+            background-color: rgb(207, 147, 69);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Biblioteka</h1>
+
+    <div id="glowna">
+        <div class="ostrzezenie">
+            {% block content %}
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for msg in messages %}
+                            <p>{{msg}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% endblock %}
+        </div>
+        <br>
+        <p>
+            <button onclick="pokazPolaTekstowe()">Wypozycz ksiazki</button>
+            <button onclick="pokazPolaTekstowe2()">Oddaj ksiazki</button>
+            <a href="/logout"><input type="button" value="Wyloguj"></a>
+        </p>
+    </div>
+
+    <!-- Ukryte -->
+    <form action="/borrow" method="POST" id="form1">
+        <div id="polaTekstowe" class="ukryte">
+            <h1>Wypozyczenie</h1>
+            <label for="pole1">ID ksiazki:</label>
+            <input type="text" id="pole1" name="pole1">
+
+            <br>
+            <br>
+
+            <label for="pole2">ID uzytkownika:</label>
+            <input type="text" id="pole2" name="pole2">
+
+            <br>
+            <br>
+            <button type="submit">Zapisz</button>
+        </div>
+    </form>
+
+    <form action="/refund" method="POST" id="form2">
+        <div id="polaTekstowe2" class="ukryte2">
+            <h1>Zwrocenie</h1>
+            <label for="pole1">ID ksiazki:</label>
+            <input type="text" id="pole1" name="pole1">
+
+            <br>
+            <br>
+
+            <label for="pole2">ID uzytkownika:</label>
+            <input type="text" id="pole2" name="pole2">
+
+            <br>
+            <br>
+            <button type="submit">Zapisz</button>
+        </div>
+    </form>
+
+    <script>
+        var polaWidoczne = false;
+
+        function pokazPolaTekstowe() {
+            var divPolaTekstowe = document.getElementById("polaTekstowe");
+            divPolaTekstowe.style.display = "block";
+            var form1 = document.getElementById("form1");
+            
+
+            if (polaWidoczne) {
+                divPolaTekstowe.style.display = "none";
+                form1.style.backgroundColor = "rgb(207, 147, 69)";
+                polaWidoczne = false;
+            } else {
+                divPolaTekstowe.style.display = "block";
+                form1.style.backgroundColor = "#fff";
+                polaWidoczne = true;
+            }
+        }
+
+        function pokazPolaTekstowe2() {
+            var divPolaTekstowe2 = document.getElementById("polaTekstowe2");
+            divPolaTekstowe2.style.display = "block";
+            var form1 = document.getElementById("form2");
+
+            if (polaWidoczne) {
+                divPolaTekstowe2.style.display = "none";
+                form2.style.backgroundColor = "rgb(207, 147, 69)";
+                polaWidoczne = false;
+            } else {
+                divPolaTekstowe2.style.display = "block";
+                form2.style.backgroundColor = "#fff";
+                polaWidoczne = true;
+            }
+        }
+    </script>
+
+
+    <h1>Lista książek</h1>
+
+    
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Tytuł</th>
+            <th>Autor</th>
+            <th>Dostępność</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.id }} </td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.is_available }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <br>
+    <h1>Wypozyczone ksiazki</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>ID ksiazki</th>
+            <th>ID uzytkownika</th>
+        </tr>
+        {% for borrow in borrowed %}
+        <tr>
+            <td>{{ borrow.id }} </td>
+            <td>{{ borrow.book_id }}</td>
+            <td>{{ borrow.user_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
